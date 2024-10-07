@@ -24,9 +24,15 @@ public struct GetInventoryItemInput
   public string id { get; set; }
 }
 
+public struct MakeOrderItem
+{
+  public string Id { get; set; }
+  public int Qty { get; set; }
+}
+
 public struct MakeOrderInput
 {
-  public List<(string Id, int Qty)> items { get; set; }
+  public List<MakeOrderItem> items { get; set; }
 }
 
 public struct EmptyInput

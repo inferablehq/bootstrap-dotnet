@@ -1,6 +1,5 @@
 using DotNetEnv;
 using Inferable;
-using Inferable.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,36 +26,41 @@ if (app.Environment.IsDevelopment())
 
 var inferable = app.Services.GetService<InferableClient>();
 
-inferable?.Default.RegisterFunction(new FunctionRegistration<SearchInput> {
+if (inferable == null)
+{
+  throw new Exception("Could not get InferableClient");
+}
+
+inferable.Default.RegisterFunction(new FunctionRegistration<SearchInput> {
     Name = "SearchInventory",
     Description = "Searches the inventory",
     Func = new Func<SearchInput, object?>(input => InventorySystem.SearchInventory(input))
     });
 
-inferable?.Default.RegisterFunction(new FunctionRegistration<GetInventoryItemInput> {
+inferable.Default.RegisterFunction(new FunctionRegistration<GetInventoryItemInput> {
     Name = "GetInventoryItem",
     Description = "Gets an inventory item",
     Func = new Func<GetInventoryItemInput, object?>(input => InventorySystem.GetInventoryItem(input))
     });
 
-inferable?.Default.RegisterFunction(new FunctionRegistration<EmptyInput> {
+inferable.Default.RegisterFunction(new FunctionRegistration<EmptyInput> {
     Name = "ListOrders",
     Description = "Lists all orders",
     Func = new Func<EmptyInput, object?>(input => InventorySystem.ListOrders())
     });
 
-inferable?.Default.RegisterFunction(new FunctionRegistration<EmptyInput> {
+inferable.Default.RegisterFunction(new FunctionRegistration<EmptyInput> {
     Name = "TotalOrderValue",
     Description = "Calculates the total value of all orders",
     Func = new Func<EmptyInput, object?>(input => InventorySystem.TotalOrderValue())
 });
 
-inferable?.Default.RegisterFunction(new FunctionRegistration<MakeOrderInput> {
+inferable.Default.RegisterFunction(new FunctionRegistration<MakeOrderInput> {
     Name = "MakeOrder",
     Description = "Makes an order",
     Func = new Func<MakeOrderInput, object?>(input => InventorySystem.MakeOrder(input))
     });
 
-await inferable?.Default.Start();
+await inferable.Default.Start();
 
 app.Run();
