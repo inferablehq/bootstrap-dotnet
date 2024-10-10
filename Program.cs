@@ -7,7 +7,7 @@ builder.Services.AddSingleton<InferableClient>(sp => {
     var options = new InferableOptions {
       // To get a new key, run:
       // npx @inferable/cli auth keys create 'My New Machine Key' --type='cluster_machine'
-      APIKey = System.Environment.GetEnvironmentVariable("INFERABLE_API_SECRET"),
+      ApiSecret = System.Environment.GetEnvironmentVariable("INFERABLE_API_SECRET"),
       BaseUrl = System.Environment.GetEnvironmentVariable("INFERABLE_API_ENDPOINT"),
     };
 
